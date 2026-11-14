@@ -2,8 +2,7 @@
 
 ###  Date: 06 - 11 - 2026
 # AIM:
-To Develop a python program to Plot a time series data (population/ market price of a commodity
-/temperature.
+To Develop a python program to Plot a time series data (population/ market price of a commodity/ temperature).
 
 # ALGORITHM:
 1. Import the required packages like pandas and matplot
@@ -14,30 +13,27 @@ To Develop a python program to Plot a time series data (population/ market price
 
 # PROGRAM:
 ```python
-from matplotlib import pyplot as plt
 import pandas as pd
+import matplotlib.pyplot as plt
 
-df = pd.read_csv("/content/ADANIPORTS-selected-columns.csv")
+# Load the daily minimum temperatures dataset
+url = 'https://raw.githubusercontent.com/jbrownlee/Datasets/master/daily-min-temperatures.csv'
+temp_data = pd.read_csv(url)
 
-df.head()
+# Prepare the data
+temp_data['Date'] = pd.to_datetime(temp_data['Date'])
+temp_data = temp_data.sort_values('Date')
+temp_data = temp_data.set_index('Date')
 
-df['Date'] = pd.to_datetime(df['Date'])
+# Display the first few rows
+display(temp_data.head())
 
-print(df.dtypes)
-
-df = df.sort_values('Date')
-
-df = df.set_index('Date')
-
-df_resampled = df['Close'].resample('B').last()
-
-df_resampled = df_resampled.interpolate(method='time', limit_area='inside')
-
-df_resampled.plot(kind='line', label='Closing Price', color='black')
-
-plt.title('Time Series Plot of Adani Ports Closing Stock Price')
+# Plot the raw temperature data
+plt.figure(figsize=(14, 5))
+plt.plot(temp_data['Temp'], color='blue', label='Daily Min Temp')
+plt.title('Daily Minimum Temperatures')
 plt.xlabel('Date')
-plt.ylabel('Closing Price')
+plt.ylabel('Temperature')
 plt.legend()
 plt.grid(True)
 plt.show()
@@ -45,8 +41,12 @@ plt.show()
 ```
 # OUTPUT:
 
-### Time Series Plot of Adani Ports Closing Stock Price
-<img width="580" height="455" alt="image" src="https://github.com/user-attachments/assets/6e651a07-ae5e-48cb-8227-920b15ca4693" />
+### Sample Data
+<img width="109" height="166" alt="{5D6C208D-7150-4013-A3A7-452B0EFBAEE2}" src="https://github.com/user-attachments/assets/7ae782b1-edab-4b4c-b91c-fd2a57b7519e" />
+
+### Time Series Plot of Daily Minimum Temperatures
+<img width="1151" height="470" alt="image" src="https://github.com/user-attachments/assets/290a5ca9-f4d1-4423-a1fc-1e9efd2d0ade" />
+
 
 # RESULT:
 Thus we have created the python code for plotting the time series of given data.
