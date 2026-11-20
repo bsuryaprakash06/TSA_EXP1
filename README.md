@@ -1,71 +1,56 @@
-# Time Series Plotting and Stationarity Analysis with Augmented Dickey-Fuller Test
+# Ex.No: 01A PLOT A TIME SERIES DATA
 
-A comprehensive statistical implementation demonstrating time series ingestion, resampling, interpolation, and stationarity diagnostics using the Augmented Dickey-Fuller (ADF) test across financial and environmental datasets.
+### Date: 06 - 11 - 2026
 
----
+# AIM:
+To develop a Python program to plot time series data and evaluate its properties and stationarity.
 
-## Objective
+# DATASET:
+- **Adani Ports Stock Price**: `ADANIPORTS-selected-columns.csv` (NSE daily closing equity prices)
+- **Daily Minimum Temperatures in Melbourne**: `daily-min-temperatures.csv` (10-year daily temperature observations)
 
-Evaluate the behavior and stationarity properties of continuous time series data. The implementation covers time-based indexing, frequency resampling, and the transformation of non-stationary series into weak stationary processes through regular and seasonal differencing and logarithmic variance stabilization.
+# ALGORITHM:
+1. Import the required packages like pandas, numpy, and matplotlib.
+2. Read the time series dataset using pandas.
+3. Handle missing values, parse datetime indexing, and calculate descriptive statistics.
+4. Resample and interpolate the data according to business frequency or calendar intervals.
+5. Plot the time series data and display the graph.
 
----
-
-## Datasets Utilized
-
-This experiment examines two distinct empirical time series exhibiting contrasting dynamics:
-
-1. **Adani Ports Equity Closing Prices (`ADANIPORTS-selected-columns.csv`)**:
-   - **Domain**: Financial Econometrics (National Stock Exchange of India - NSE).
-   - **Frequency / Span**: Daily trading records resampled to Business Days (`B`).
-   - **Characteristics**: Random-walk stochastic trends with localized volatility clustering. Missing weekend and holiday records handled via time-based linear interpolation.
-   - **Seasonality Period**: 252 trading days per calendar year.
-
-2. **Daily Minimum Temperatures in Melbourne (`daily-min-temperatures.csv`)**:
-   - **Domain**: Climatology / Meteorology.
-   - **Frequency / Span**: Daily records over a 10-year span (1981–1990) in Melbourne, Australia.
-   - **Characteristics**: Deterministic annual periodicity and cyclic variation.
-   - **Seasonality Period**: 365 calendar days.
-
----
-
-## Methodology & Mathematical Formulation
-
-### 1. Resampling and Interpolation
-Non-uniform timestamps are normalized to uniform business-day frequency:
+# PROGRAM:
 ```python
-df_resampled = df['Close'].resample('B').last()
-df_resampled = df_resampled.interpolate(method='time', limit_area='inside')
+import pandas as pd
+import matplotlib.pyplot as plt
+
+# Load the daily minimum temperatures dataset
+url = 'https://raw.githubusercontent.com/jbrownlee/Datasets/master/daily-min-temperatures.csv'
+temp_data = pd.read_csv(url)
+
+# Prepare the data
+temp_data['Date'] = pd.to_datetime(temp_data['Date'])
+temp_data = temp_data.sort_values('Date')
+temp_data = temp_data.set_index('Date')
+
+# Display the first few rows
+display(temp_data.head())
+
+# Plot the raw temperature data
+plt.figure(figsize=(14, 5))
+plt.plot(temp_data['Temp'], color='blue', label='Daily Min Temp')
+plt.title('Daily Minimum Temperatures')
+plt.xlabel('Date')
+plt.ylabel('Temperature')
+plt.legend()
+plt.grid(True)
+plt.show()
 ```
 
-### 2. Transformations for Stationarity
-- **First-Order Regular Differencing**:
-  $$\Delta y_t = y_t - y_{t-1}$$
-- **Seasonal Differencing** ($s = 252$ or $s = 365$):
-  $$\Delta_s y_t = y_t - y_{t-s}$$
-- **Logarithmic Variance Stabilization**:
-  $$z_t = \ln(y_t)$$
-- **Combined Regular and Seasonal Log-Differencing**:
-  $$w_t = \Delta \Delta_s \ln(y_t) = (\ln y_t - \ln y_{t-1}) - (\ln y_{t-s} - \ln y_{t-s-1})$$
+# OUTPUT:
 
-### 3. Augmented Dickey-Fuller (ADF) Unit Root Test
-The ADF test models the series as:
-$$\Delta y_t = \alpha + \beta t + \gamma y_{t-1} + \sum_{i=1}^p \delta_i \Delta y_{t-i} + \epsilon_t$$
-- **Null Hypothesis ($H_0$)**: $\gamma = 0$ (Unit root present; series is non-stationary).
-- **Alternative Hypothesis ($H_1$)**: $\gamma < 0$ (Unit root absent; series is stationary).
-- Rejection threshold: $p \le 0.05$.
+### Sample Data
+<img width="109" height="166" alt="{5D6C208D-7150-4013-A3A7-452B0EFBAEE2}" src="https://github.com/user-attachments/assets/7ae782b1-edab-4b4c-b91c-fd2a57b7519e" />
 
----
+### Time Series Plot of Daily Minimum Temperatures
+<img width="1151" height="470" alt="image" src="https://github.com/user-attachments/assets/290a5ca9-f4d1-4423-a1fc-1e9efd2d0ade" />
 
-## Results & Visualizations
-
-### Sample Ingestion
-<img width="109" height="166" alt="Sample Data Head" src="https://github.com/user-attachments/assets/7ae782b1-edab-4b4c-b91c-fd2a57b7519e" />
-
-### Daily Minimum Temperatures Plot
-<img width="1151" height="470" alt="Melbourne Temperature Time Series" src="https://github.com/user-attachments/assets/290a5ca9-f4d1-4423-a1fc-1e9efd2d0ade" />
-
----
-
-## License
-
-This project is licensed under the GNU General Public License v3.0. See the [LICENSE](LICENSE) file for details.
+# RESULT:
+Thus, the Python code for plotting the time series of the given dataset has been created and executed successfully.
