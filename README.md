@@ -6,7 +6,6 @@
 To develop a Python program to plot time series data and evaluate its properties and stationarity.
 
 # DATASET:
-- **Adani Ports Stock Price**: `ADANIPORTS-selected-columns.csv` (NSE daily closing equity prices)
 - **Daily Minimum Temperatures in Melbourne**: `daily-min-temperatures.csv` (10-year daily temperature observations)
 
 # ALGORITHM:
